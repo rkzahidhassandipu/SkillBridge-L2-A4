@@ -1,0 +1,168 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STUDENT
+  TUTOR
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  BANNED
+}
+
+enum BookingStatus {
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id       String     @id @default(uuid())
+  name     String
+  email    String     @unique
+  role     Role       @default(STUDENT)
+  status   UserStatus @default(ACTIVE)
+
+  tutorProfile    TutorProfile?
+  studentBookings Booking[]     @relation("StudentBookings")
+  tutorBookings   Booking[]     @relation("TutorBookings")
+  reviewsGiven    Review[]      @relation("StudentReviews")
+  reviewsReceived Review[]      @relation("TutorReviews")
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  emailVerified Boolean   @default(false)
+  image         String?
+  sessions      Session[]
+  accounts      Account[]
+
+  @@map("user")
+}
+
+model TutorProfile {
+  id           String @id @default(uuid())
+  userId       String @unique
+  bio          String
+  pricePerHour Float
+  rating       Float  @default(0)
+  totalReviews Int    @default(0)
+
+  user       User            @relation(fields: [userId], references: [id])
+  categories TutorCategory[]
+
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String @unique
+
+  tutors   TutorCategory[]
+  bookings Booking[]
+}
+
+model TutorCategory {
+  tutorProfileId String
+  categoryId     String
+
+  tutorProfile TutorProfile @relation(fields: [tutorProfileId], references: [id])
+  category     Category     @relation(fields: [categoryId], references: [id])
+
+  @@id([tutorProfileId, categoryId])
+}
+
+model Booking {
+  id         String @id @default(uuid())
+  studentId  String
+  tutorId    String
+  categoryId String
+
+  date     DateTime
+  timeSlot String
+  status   BookingStatus @default(CONFIRMED)
+
+  student  User     @relation("StudentBookings", fields: [studentId], references: [id])
+  tutor    User     @relation("TutorBookings", fields: [tutorId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+  review   Review?
+
+  createdAt DateTime @default(now())
+}
+
+model Review {
+  id        String @id @default(uuid())
+  bookingId String @unique
+  studentId String
+  tutorId   String
+
+  rating  Int
+  comment String
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+  student User    @relation("StudentReviews", fields: [studentId], references: [id])
+  tutor   User    @relation("TutorReviews", fields: [tutorId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?   // optional now
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
