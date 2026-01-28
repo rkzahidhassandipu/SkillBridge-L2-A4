@@ -17,12 +17,14 @@ app.use(
     origin: process.env.APP_URL || "http://localhost:3000",
     credentials: true,
   })
-  
+
 );
 
 app.use(express.json());
 
 app.all("/api/auth/*splat", toNodeHandler(auth));
+
+app.use("/api")
 
 app.get("/", (req, res) => {
     res.send("SkillBridge API is running 🚀");
