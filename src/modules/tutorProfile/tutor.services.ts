@@ -97,10 +97,8 @@ const updateTutorProfile = async (
   });
 };
 
-
-
 export const tutorProfileServices = {
   createTutorProfile,
   getTutorProfileByUserId,
   updateTutorProfile,
-};
+}
