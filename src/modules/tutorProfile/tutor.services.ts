@@ -43,7 +43,9 @@ const getTutorProfileByUserId = async (userId: string) => {
         include: {
           category: true,
         },
+        
       },
+       availabilities: true
     },
   });
 

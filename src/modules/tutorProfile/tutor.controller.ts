@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { tutorProfileServices } from "./tutor.services";
-import { success } from "better-auth";
 
 const createTutorProfile = async (req: Request, res: Response) => {
   try {

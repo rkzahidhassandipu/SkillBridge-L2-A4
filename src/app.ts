@@ -4,6 +4,7 @@ import { auth } from "./lib/auth";
 import cors from 'cors';
 import { categoryRouter } from "./modules/category/category.router";
 import { tutorProfileRouter } from "./modules/tutorProfile/tutor.router";
+import { availabilityRouter } from "./modules/availability/availability.router";
 
 const app: Application = express();
 
@@ -28,6 +29,7 @@ app.all("/api/auth/*splat", toNodeHandler(auth));
 
 app.use("/api", categoryRouter)
 app.use("/profile", tutorProfileRouter)
+app.use("/availability", availabilityRouter)
 
 app.get("/", (req, res) => {
     res.send("SkillBridge API is running 🚀");

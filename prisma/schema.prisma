@@ -63,9 +63,22 @@ model TutorProfile {
 
   user       User            @relation(fields: [userId], references: [id])
   categories TutorCategory[]
+  availabilities TutorAvailability[] 
 
   createdAt DateTime @default(now())
 }
+model TutorAvailability {
+  id             String @id @default(uuid())
+  tutorProfileId String
+  day            String
+  startTime      String
+  endTime        String
+
+  tutorProfile   TutorProfile @relation(fields: [tutorProfileId], references: [id])
+
+  @@unique([tutorProfileId, day, startTime, endTime]) // duplicate avoid
+}
+
 
 model Category {
   id   String @id @default(uuid())
