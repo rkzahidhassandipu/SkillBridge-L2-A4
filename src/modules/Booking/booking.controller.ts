@@ -58,20 +58,26 @@ const getTutorBookings = async (req: Request, res: Response) => {
   }
 }
 
-// const updateBookingsStatus = async (req: Request, res: Response) => {
-//   try {
-//     const bookingId = req.params.id;
-//     const {status} = req.body;
-//     const userId = req.user!.id;
+const updateBookingStatus = async (req: Request, res: Response) => {
+  try {
+    const bookingId = req.params.id;
+    const { status } = req.body; // "CANCELLED" or "COMPLETED"
+    const userId = req.user!.id;
 
-//     const updateBooking = bookingServices.u
-//   } catch (error) {
-    
-//   }
-// }
+    const updatedBooking = await bookingServices.updateBookingStatus(
+      bookingId,
+      status,
+      userId
+    );
 
+    res.json({ success: true, data: updatedBooking });
+  } catch (error: any) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
 export const bookingController = {
   createBooking,
   getStudentBookings,
-  getTutorBookings
+  getTutorBookings,
+  updateBookingStatus
 };

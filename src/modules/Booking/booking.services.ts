@@ -1,3 +1,4 @@
+import { BookingStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 
 
@@ -73,8 +74,35 @@ const getBookingsByTutor = async (tutorId: string) => {
     orderBy: {date: "asc"}
   })
 }
+
+
+const updateBookingStatus = async (
+  bookingId: string,
+  status: "CANCELLED" | "COMPLETED",
+  userId: string
+) => {
+  const booking = await prisma.booking.findUnique({ where: { id: bookingId } });
+
+  if (!booking) throw new Error("Booking not found");
+
+  // Only student who booked or the tutor can update
+  if (booking.studentId !== userId && booking.tutorId !== userId) {
+    throw new Error("You don't have permission to update this booking");
+  }
+
+  // Prevent updating already completed/cancelled bookings
+  if (["CANCELLED", "COMPLETED"].includes(booking.status)) {
+    throw new Error("Booking already finalized");
+  }
+
+  return prisma.booking.update({
+    where: { id: bookingId },
+    data: { status },
+  });
+};
 export const bookingServices = {
   createBooking,
   getBookingsByStudent,
-  getBookingsByTutor
+  getBookingsByTutor,
+  updateBookingStatus
 };
