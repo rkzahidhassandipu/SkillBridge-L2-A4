@@ -68,4 +68,117 @@ git clone https://github.com/yourusername/SkillBridge.git
 cd SkillBridge
 ```
 
+Install dependencies:
+
 npm install
+
+
+Setup environment variables (see below).
+
+Run the development server:
+
+npm run dev
+
+
+Run Prisma migrations to setup the database:
+
+npx prisma migrate dev
+
+Environment Variables
+
+Create a .env file at the root:
+
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE
+APP_URL=http://localhost:3000
+PORT=5000
+
+
+If using Better Auth:
+
+BETTER_AUTH_SECRET=your_secret
+BETTER_AUTH_DB_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE
+
+Database Setup
+
+Tables (Prisma models):
+
+Users
+
+TutorProfiles
+
+Categories
+
+TutorCategories (junction table)
+
+TutorAvailability
+
+Bookings
+
+Reviews
+
+Prisma schema is located at prisma/schema.prisma.
+
+API Endpoints
+Authentication
+Method	Endpoint	Description
+POST	/api/auth/register	Register new user
+POST	/api/auth/login	Login user
+GET	/api/auth/me	Get current user
+Tutors
+Method	Endpoint	Description
+GET	/api/tutors	Get all tutors
+GET	/api/tutors/:id	Get tutor details
+GET	/api/categories	List categories
+Tutor Management
+Method	Endpoint	Description
+POST	/api/tutor/profile	Create tutor profile
+GET	/api/tutor/profile	Get own profile
+PUT	/api/tutor/profile	Update profile
+PUT	/api/tutor/availability	Update availability
+Bookings
+Method	Endpoint	Description
+POST	/api/bookings	Create new booking
+GET	/api/bookings	Student bookings
+GET	/api/tutor/bookings	Tutor bookings
+PATCH	/api/bookings/:id	Cancel / complete booking
+Reviews
+Method	Endpoint	Description
+POST	/api/reviews	Leave a review
+Admin
+Method	Endpoint	Description
+GET	/api/admin/users	List all users
+PATCH	/api/admin/users/:id	Update user status
+GET	/api/admin/bookings	List all bookings
+GET	/api/admin/categories	Manage categories
+Folder Structure
+/src
+  /controllers
+  /middlewares
+  /routes
+  /services
+  /lib
+/prisma
+  schema.prisma
+.env
+package.json
+
+Usage
+
+Frontend interacts with /api endpoints.
+
+Student selects a tutor → chooses an availability → books session.
+
+Tutor sets availability → manages sessions.
+
+Admin oversees users, bookings, and categories.
+
+License
+
+This project is licensed under MIT License.
+
+
+---
+
+If you want, I can also **create a version with example JSON requests/responses for every API** so frontend developers can integrate without confusion.  
+
+Do you want me to do that next?
