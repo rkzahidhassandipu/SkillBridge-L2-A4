@@ -147,10 +147,34 @@ const getAllTutors = async (filters: FilterOptions) => {
 }
 
 
-
+const getTutorById = async (id: string) => {
+  const tutor = await prisma.tutorProfile.findUnique({
+    where: {id},
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true
+        }
+      },
+      categories: {
+        include: {
+          category: true
+        }
+      },
+      availabilities: true
+    }
+  });
+  if(!tutor){
+    throw new Error("Tutor not found")
+  }
+  return tutor
+}
 export const tutorProfileServices = {
   createTutorProfile,
   getTutorProfileByUserId,
   updateTutorProfile,
   getAllTutors,
+  getTutorById
 }
