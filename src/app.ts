@@ -5,6 +5,7 @@ import cors from 'cors';
 import { categoryRouter } from "./modules/category/category.router";
 import { tutorProfileRouter } from "./modules/tutorProfile/tutor.router";
 import { availabilityRouter } from "./modules/availability/availability.router";
+import { bookingRouter } from "./modules/Booking/booking.router";
 
 const app: Application = express();
 
@@ -29,6 +30,7 @@ app.all("/api/auth/*splat", toNodeHandler(auth));
 
 app.use("/api", categoryRouter)
 app.use("/profile", tutorProfileRouter)
+app.use("/booking", bookingRouter)
 app.use("/availability", availabilityRouter)
 
 app.get("/", (req, res) => {

@@ -87,7 +87,24 @@ const getAllTutors = async (req: Request, res: Response) => {
     }
 }
 
+const getTutorById = async (req: Request, res: Response) => {
+    try {
 
+        const tutorProfileId = req.params.tutorProfileId as string;
+
+        const tutor = await tutorProfileServices.getTutorById(tutorProfileId);
+
+        res.json({
+            success: true,
+            data: tutor
+        })
+    } catch (error: any) {
+        res.status(404).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
 
 
 export const tutorProfileController = {
@@ -95,4 +112,5 @@ export const tutorProfileController = {
     getMyTUtorProfile,
     updateTutorProfile,
     getAllTutors,
+    getTutorById
 }
