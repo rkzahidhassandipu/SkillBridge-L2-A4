@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { tutorProfileServices } from "./tutor.services";
+import { success } from "better-auth";
 
 const createTutorProfile = async (req: Request, res: Response) => {
   try {
@@ -63,8 +64,35 @@ const updateTutorProfile = async (req: Request, res: Response) => {
     }
 }
 
+
+const getAllTutors = async (req: Request, res: Response) => {
+    try {
+        const {categoryId, minPrice, maxPrice} = req.query;
+
+        const tutors = await tutorProfileServices.getAllTutors({
+            categoryId: categoryId as string,
+            minPrice: minPrice ? Number(minPrice) : undefined,
+            maxPrice: maxPrice ? Number(maxPrice) : undefined,
+        });
+
+        res.json({
+            success: true,
+            data: tutors
+        })
+    } catch (error: any) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+
+
+
 export const tutorProfileController = {
     createTutorProfile,
     getMyTUtorProfile,
-    updateTutorProfile
+    updateTutorProfile,
+    getAllTutors,
 }

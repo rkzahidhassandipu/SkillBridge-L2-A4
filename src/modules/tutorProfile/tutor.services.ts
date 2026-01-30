@@ -97,8 +97,60 @@ const updateTutorProfile = async (
   });
 };
 
+
+interface FilterOptions {
+  categoryId?: string,
+  minPrice?: number,
+  maxPrice?: number
+}
+
+const getAllTutors = async (filters: FilterOptions) => {
+  const {categoryId, minPrice, maxPrice} = filters;
+
+  return await prisma.tutorProfile.findMany({
+    where: {
+      ...(minPrice || maxPrice
+        ?
+        {
+          pricePerHour: {
+            ...(minPrice && {gte: minPrice}),
+            ...(maxPrice && {lte: maxPrice}),
+          },
+        }
+      : {}),
+      ...(categoryId
+        ? {
+          categories: {
+            some: {
+              categoryId
+            }
+          }
+        }: {}
+      )
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true
+        }
+      },
+      categories: {
+        include: {
+          category: true
+        }
+      },
+      availabilities: true
+    }
+  })
+}
+
+
+
 export const tutorProfileServices = {
   createTutorProfile,
   getTutorProfileByUserId,
   updateTutorProfile,
+  getAllTutors,
 }

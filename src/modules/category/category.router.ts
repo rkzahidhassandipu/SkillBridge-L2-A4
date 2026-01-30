@@ -1,10 +1,11 @@
 import express, { Router } from "express";
 import { categoryController } from "./category.controller";
+import auth, { TutorRole } from "../../middlewares/auth";
 
 const router = express.Router();
 
 
 router.get("/categories", categoryController.getCategories)
-router.post("/categories", categoryController.createCategory)
+router.post("/categories", auth(TutorRole.ADMIN), categoryController.createCategory)
 
 export const categoryRouter: Router = router

@@ -7,6 +7,9 @@ const router = Router();
 router.post("/", auth(TutorRole.TUTOR), tutorProfileController.createTutorProfile)
 router.get("/", auth(TutorRole.TUTOR), tutorProfileController.getMyTUtorProfile)
 router.put("/", auth(TutorRole.TUTOR), tutorProfileController.updateTutorProfile)
+router.get("/tutors", tutorProfileController.getAllTutors)
+router.get("/tutor/:tutorProfileId", tutorProfileController.getTutorById)
+
 
 
 export const tutorProfileRouter: Router = router
