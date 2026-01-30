@@ -12,6 +12,8 @@ router.get("/", auth(TutorRole.USER), bookingController.getStudentBookings);
 // Tutor dashboard
 router.get("/tutor", auth(TutorRole.TUTOR), bookingController.getTutorBookings);
 
+router.patch("/:id", auth(TutorRole.USER, TutorRole.TUTOR), bookingController.updateBookingStatus);
+
 export const bookingRouter: Router = router;
 
 // export const categoryRouter: Router = router

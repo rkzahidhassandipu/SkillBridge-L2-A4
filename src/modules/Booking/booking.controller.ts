@@ -60,9 +60,14 @@ const getTutorBookings = async (req: Request, res: Response) => {
 
 const updateBookingStatus = async (req: Request, res: Response) => {
   try {
-    const bookingId = req.params.id;
+    const bookingId = req.params.id as string;
     const { status } = req.body; // "CANCELLED" or "COMPLETED"
     const userId = req.user!.id;
+
+    // Validate status
+    if (!["CANCELLED", "COMPLETED"].includes(status)) {
+      return res.status(400).json({ success: false, message: "Invalid status" });
+    }
 
     const updatedBooking = await bookingServices.updateBookingStatus(
       bookingId,
