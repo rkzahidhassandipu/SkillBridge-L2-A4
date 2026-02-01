@@ -87,12 +87,12 @@ cd SkillBridge
 Environment Variables
 
 Create a .env file at the root:
-``
+```bash
 DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE
 APP_URL=http://localhost:3000
 PORT=5000 
 
-``
+```
 
 
 If using Better Auth:

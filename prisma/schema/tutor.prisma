@@ -1,0 +1,44 @@
+model TutorProfile {
+  id           String @id @default(uuid())
+  userId       String @unique
+  bio          String
+  pricePerHour Float
+  rating       Float  @default(0)
+  totalReviews Int    @default(0)
+
+  user           User              @relation(fields: [userId], references: [id])
+  categories     TutorCategory[]
+  availabilities TutorAvailability[]
+
+  createdAt DateTime @default(now())
+}
+
+model TutorAvailability {
+  id             String @id @default(uuid())
+  tutorProfileId String
+  day            String
+  startTime      String
+  endTime        String
+
+  tutorProfile TutorProfile @relation(fields: [tutorProfileId], references: [id])
+
+  @@unique([tutorProfileId, day, startTime, endTime])
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String @unique
+
+  tutors   TutorCategory[]
+  bookings Booking[]
+}
+
+model TutorCategory {
+  tutorProfileId String
+  categoryId     String
+
+  tutorProfile TutorProfile @relation(fields: [tutorProfileId], references: [id])
+  category     Category     @relation(fields: [categoryId], references: [id])
+
+  @@id([tutorProfileId, categoryId])
+}
