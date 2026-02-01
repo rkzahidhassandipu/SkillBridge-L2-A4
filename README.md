@@ -68,54 +68,50 @@ git clone https://github.com/yourusername/SkillBridge.git
 cd SkillBridge
 ```
 
-Install dependencies:
+1. Install dependencies:
 
-npm install
-
-
-Setup environment variables (see below).
-
-Run the development server:
-
-npm run dev
+`` npm install ``
 
 
-Run Prisma migrations to setup the database:
+2. Setup environment variables (see below).
 
-npx prisma migrate dev
+3. Run the development server:
+
+`` npm run dev ``
+
+4. Run Prisma migrations to setup the database:
+
+`` npx prisma migrate dev ``
+
 
 Environment Variables
 
 Create a .env file at the root:
-
+``
 DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE
 APP_URL=http://localhost:3000
-PORT=5000
+PORT=5000 
+
+``
 
 
 If using Better Auth:
 
+``
 BETTER_AUTH_SECRET=your_secret
 BETTER_AUTH_DB_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE
+``
 
-Database Setup
+## Database Setup
 
-Tables (Prisma models):
-
+### Tables (Prisma models):
 Users
-
 TutorProfiles
-
 Categories
-
 TutorCategories (junction table)
-
 TutorAvailability
-
 Bookings
-
 Reviews
-
 Prisma schema is located at prisma/schema.prisma.
 
 API Endpoints
