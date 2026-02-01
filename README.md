@@ -174,11 +174,8 @@ package.json
 Usage
 
 Frontend interacts with /api endpoints.
-
 Student selects a tutor → chooses an availability → books session.
-
 Tutor sets availability → manages sessions.
-
 Admin oversees users, bookings, and categories.
 
 License
