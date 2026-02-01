@@ -120,36 +120,48 @@ Prisma schema is located at prisma/schema.prisma.
 
 API Endpoints
 Authentication
-Method	Endpoint	Description
-POST	/api/auth/register	Register new user
-POST	/api/auth/login	Login user
-GET	/api/auth/me	Get current user
+| Method | Endpoint             | Description       |
+| ------ | -------------------- | ----------------- |
+| POST   | `/api/auth/register` | Register new user |
+| POST   | `/api/auth/login`    | Login user        |
+| GET    | `/api/auth/me`       | Get current user  |
+
 Tutors
-Method	Endpoint	Description
-GET	/api/tutors	Get all tutors
-GET	/api/tutors/:id	Get tutor details
-GET	/api/categories	List categories
+| Method | Endpoint          | Description       |
+| ------ | ----------------- | ----------------- |
+| GET    | `/api/tutors`     | Get all tutors    |
+| GET    | `/api/tutors/:id` | Get tutor details |
+| GET    | `/api/categories` | List categories   |
+
 Tutor Management
-Method	Endpoint	Description
-POST	/api/tutor/profile	Create tutor profile
-GET	/api/tutor/profile	Get own profile
-PUT	/api/tutor/profile	Update profile
-PUT	/api/tutor/availability	Update availability
+| Method | Endpoint                  | Description          |
+| ------ | ------------------------- | -------------------- |
+| POST   | `/api/tutor/profile`      | Create tutor profile |
+| GET    | `/api/tutor/profile`      | Get own profile      |
+| PUT    | `/api/tutor/profile`      | Update profile       |
+| PUT    | `/api/tutor/availability` | Update availability  |
+
 Bookings
-Method	Endpoint	Description
-POST	/api/bookings	Create new booking
-GET	/api/bookings	Student bookings
-GET	/api/tutor/bookings	Tutor bookings
-PATCH	/api/bookings/:id	Cancel / complete booking
+| Method | Endpoint              | Description               |
+| ------ | --------------------- | ------------------------- |
+| POST   | `/api/bookings`       | Create new booking        |
+| GET    | `/api/bookings`       | Student bookings          |
+| GET    | `/api/tutor/bookings` | Tutor bookings            |
+| PATCH  | `/api/bookings/:id`   | Cancel / complete booking |
+
 Reviews
-Method	Endpoint	Description
-POST	/api/reviews	Leave a review
+| Method | Endpoint       | Description    |
+| ------ | -------------- | -------------- |
+| POST   | `/api/reviews` | Leave a review |
+
 Admin
-Method	Endpoint	Description
-GET	/api/admin/users	List all users
-PATCH	/api/admin/users/:id	Update user status
-GET	/api/admin/bookings	List all bookings
-GET	/api/admin/categories	Manage categories
+| Method | Endpoint                | Description        |
+| ------ | ----------------------- | ------------------ |
+| GET    | `/api/admin/users`      | List all users     |
+| PATCH  | `/api/admin/users/:id`  | Update user status |
+| GET    | `/api/admin/bookings`   | List all bookings  |
+| GET    | `/api/admin/categories` | Manage categories  |
+
 Folder Structure
 /src
   /controllers
@@ -161,6 +173,7 @@ Folder Structure
   schema.prisma
 .env
 package.json
+
 
 Usage
 
